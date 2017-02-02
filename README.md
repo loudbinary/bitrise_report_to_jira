@@ -1,8 +1,14 @@
-# My Awesome Step
+# Bitrise Reporting to JIRA
 
-My Awesome Step is a solid starting code base for
-a new Step.
+This custom step will take a commit message, evaluate commit message and find potentially matching JIRA Issue Keys.
 
+For each potential issue key found, the step will query JIRA to see if found issue key matches an existing issue. 
+
+For each found and legitimate issue, build results, depending on configuration of this step, will be reported to issue.
+
+Additionally, there is an option that if no issue key was provided then create a new issue for a default project with a default issue type.
+
+## The remaining text needs modified.. after testing.
 
 ## How to use this Step
 
