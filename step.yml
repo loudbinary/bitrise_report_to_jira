@@ -80,7 +80,7 @@ inputs:
       is_expand: true
       is_required: false
       value_options: []
-  - jira_create_missing:
+  - jira_create_missing: "false"
     opts:
       title: "JIRA Create Issue if Missing"
       summary: "Creates new issue if one wasn't provided, on default board."
@@ -90,7 +90,7 @@ inputs:
       value_options:
         - "true"
         - "false"
-  - when_to_notify:
+  - when_to_notify: "None"
     opts:
       title: "When to provide updates to JIRA Issues"
       summary: "Create issue / comment on Successful, Failed, or Both for Jobs"
