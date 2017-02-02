@@ -38,7 +38,20 @@ if [ -z "${jira_url}" ] ; then
 	exit 1
 fi
 
-resp=$(php "${THIS_SCRIPTDIR}/application.php")
+if [ -z "${jira_default_project}" ] ; then
+	write_section_to_formatted_output "# Error"
+	write_section_start_to_formatted_output '* Required input `jira_default_project` not provided!'
+	exit 1
+fi
+
+if [ -z "${jira_default_issue_type}" ] ; then
+	write_section_to_formatted_output "# Error"
+	write_section_start_to_formatted_output '* Required input `jira_default_issue_type` not provided!'
+	exit 1
+fi
+
+resp=$(cd ./src && npm install && node index.js --JIRA_URL="${jira_url}" --JIRA_USER="${jira_user}" --JIRA_PASSWORD="${jira_password}")
+
 ex_code=$?
 
 if [ ${ex_code} -eq 0 ] ; then
