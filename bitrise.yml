@@ -1,5 +1,5 @@
 format_version: 1.1.0
-default_step_lib_source: https://github.com/loudbinary/bitrise_report_to_jira.git
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 
 app:
   envs:
@@ -20,6 +20,11 @@ workflows:
         inputs:
         - path: ./_tmp
         - is_create_path: true
+    - git::https://github.com/loudbinary/bitrise_report_to_jira.git@master:
+       title: My step
+       inputs:
+       - my_input_1: "my value 1"
+       - my_input_2: "my value 2"
     - path::./:
         title: Step Test
         description: |-

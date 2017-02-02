@@ -1,5 +1,5 @@
-title: "Create JIRA comment with build"
-summary: Will post a comment with build results for all items in provided ISSUE_KEY array (download link, build number, etc)
+title: "Update, or Create JIRA comment with commit_message"
+summary: Will post a comment with build results for all items in provided ISSUE_KEY array found withing commit messages (download link, build number, etc)
 description: Will post a comment on the issue page with build details (download link, build number, etc)
 website: https://github.com/loudbinary/bitrise_report_to_jira
 source_code_url: https://github.com/loudbinary/bitrise_report_to_jira.git
@@ -13,16 +13,13 @@ is_skippable: false
 host_os_tags:
 - ubuntu-14.04
 - osx-10.11
-deps:
-  apt_get:
-  - name: php7.0
 run_if: .IsCI | and (not .IsPR)
 inputs:
-  - git_branch: $BITRISE_GIT_BRANCH
+  - git_commit_message: $BITRISE_GIT_MESSAGE
     opts:
-      title: "Git branch name"
-      summary: "The branch name for the build"
-      description: "The branch name for the build"
+      title: "Git commit message"
+      summary: "The commit message, or details given when this job was started"
+      description: "Commit message will be parsed for issue keys, and provide build status to each."
       is_expand: true
       is_required: true
       value_options: []
@@ -67,6 +64,44 @@ inputs:
       is_expand: true
       is_required: true
       value_options: []
+  - jira_default_project:
+    opts:
+      title: "JIRA Default Project"
+      summary: "JIRA Default Project for new issues"
+      description: "When necessary to create a new issue, because none were supplied, then issue will be built here."
+      is_expand: true
+      is_required: true
+      value_options: []
+  - jira_default_issue_type:
+    opts:
+      title: "JIRA Default Issue type"
+      summary: "JIRA Default Issue type for new issues"
+      description: "When necessary to create a new issue, because none were supplied, then issue type will be used."
+      is_expand: true
+      is_required: false
+      value_options: []
+  - jira_create_missing:
+    opts:
+      title: "JIRA Create Issue if Missing"
+      summary: "Creates new issue if one wasn't provided, on default board."
+      description: "When necessary to create a new issue, because none were supplied in commit message."
+      is_expand: true
+      is_required: false
+      value_options:
+        - "true"
+        - "false"
+  - when_to_notify:
+    opts:
+      title: "When to provide updates to JIRA Issues"
+      summary: "Create issue / comment on Successful, Failed, or Both for Jobs"
+      description: "Define when updates should occurr to JIRA Issues."
+      is_expand: true
+      is_required: true
+      value_options:
+        - "Success"
+        - "Failure"
+        - "Both"
+        - "None"
 outputs:
   - JIRA_ISSUE_KEY:
     opts:

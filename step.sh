@@ -1,21 +1,54 @@
 #!/bin/bash
 
-echo "This is the value specified for the input 'example_step_input': ${example_step_input}"
+THIS_SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-#
-# --- Export Environment Variables for other Steps:
-# You can export Environment Variables for other Steps with
-#  envman, which is automatically installed by `bitrise setup`.
-# A very simple example:
-#  envman add --key EXAMPLE_STEP_OUTPUT --value 'the value you want to share'
-# Envman can handle piped inputs, which is useful if the text you want to
-# share is complex and you don't want to deal with proper bash escaping:
-#  cat file_with_complex_input | envman add --KEY EXAMPLE_STEP_OUTPUT
-# You can find more usage examples on envman's GitHub page
-#  at: https://github.com/bitrise-io/envman
+source "${THIS_SCRIPTDIR}/_bash_utils/utils.sh"
+source "${THIS_SCRIPTDIR}/_bash_utils/formatted_output.sh"
 
-#
-# --- Exit codes:
-# The exit code of your Step is very important. If you return
-#  with a 0 exit code `bitrise` will register your Step as "successful".
-# Any non zero exit code will be registered as "failed" by `bitrise`.
+# init / cleanup the formatted output
+echo "" > "${formatted_output_file_path}"
+
+if [ -z "${git_commit_message}" ] ; then
+	write_section_to_formatted_output "# Error"
+	write_section_start_to_formatted_output '* Required input `git_commit_message` not provided!'
+	exit 1
+fi
+
+if [ -z "${jira_user}" ] ; then
+	write_section_to_formatted_output "# Error"
+	write_section_start_to_formatted_output '* Required input `$jira_user` not provided!'
+	exit 1
+fi
+
+if [ -z "${jira_password}" ] ; then
+	write_section_to_formatted_output "# Error"
+	write_section_start_to_formatted_output '* Required input `$jira_password` not provided!'
+	exit 1
+fi
+
+if [ -z "${jira_build_message}" ] ; then
+	write_section_to_formatted_output "# Error"
+	write_section_start_to_formatted_output '* Required input `$jira_build_message` not provided!'
+	exit 1
+fi
+
+if [ -z "${jira_url}" ] ; then
+	write_section_to_formatted_output "# Error"
+	write_section_start_to_formatted_output '* Required input `$jira_url` not provided!'
+	exit 1
+fi
+
+resp=$(php "${THIS_SCRIPTDIR}/application.php")
+ex_code=$?
+
+if [ ${ex_code} -eq 0 ] ; then
+	echo "${resp}"
+	write_section_to_formatted_output "# Success"
+	echo_string_to_formatted_output "Message successfully sent."
+	exit 0
+fi
+
+write_section_to_formatted_output "# Error"
+write_section_to_formatted_output "Sending the message failed with the following error:"
+echo_string_to_formatted_output "${resp}"
+exit 1
