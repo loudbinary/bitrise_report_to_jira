@@ -61,7 +61,6 @@ if [ ${ex_code} -eq 0 ] ; then
 	exit 0
 fi
 
-
 write_section_to_formatted_output "# Error"
 write_section_to_formatted_output "Sending the message failed with the following error:"
 echo_string_to_formatted_output "${resp}"
