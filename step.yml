@@ -64,6 +64,14 @@ inputs:
       is_expand: true
       is_required: true
       value_options: []
+  - jira_port:
+      opts:
+        title: "JIRA Port"
+        summary: "JIRA instance Port"
+        description: "443, 8080"
+        is_expand: true
+        is_required: true
+        value_options: []
   - jira_default_project:
     opts:
       title: "JIRA Default Project"
@@ -118,5 +126,12 @@ outputs:
       title: "JIRA issue key"
       summary: The key of the issue where the comment has been posted
       description: The key of the issue where the comment has been posted
+      is_expand: true
+      is_required: true
+  - JIRA_ISSUE_URL:
+    opts:
+      title: "JIRA Issue Url"
+      summary: Browseable url
+      description: Hyper link url to allow users to open new issue.
       is_expand: true
       is_required: true

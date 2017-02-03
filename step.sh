@@ -38,6 +38,12 @@ if [ -z "${jira_url}" ] ; then
 	exit 1
 fi
 
+if [ -z "${jira_port}" ] ; then
+	write_section_to_formatted_output "# Error"
+	write_section_start_to_formatted_output '* Required input `$jira_url` not provided!'
+	exit 1
+fi
+
 if [ -z "${jira_default_project}" ] ; then
 	write_section_to_formatted_output "# Error"
 	write_section_start_to_formatted_output '* Required input `jira_default_project` not provided!'
@@ -50,7 +56,7 @@ if [ -z "${jira_default_issue_type}" ] ; then
 	exit 1
 fi
 
-resp=$(npm install && node index.js --JIRA_URL="${jira_url}" --JIRA_USER="${jira_user}" --JIRA_PASSWORD="${jira_password}")
+resp=$(npm install && node index.js --JIRA_URL="${jira_url}" --JIRA_PORT="${jira_port} --JIRA_USER="${jira_user}" --JIRA_PASSWORD="${jira_password}")
 
 ex_code=$?
 
