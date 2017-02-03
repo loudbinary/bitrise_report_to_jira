@@ -65,13 +65,13 @@ inputs:
       is_required: true
       value_options: []
   - jira_port:
-      opts:
-        title: "JIRA Port"
-        summary: "JIRA instance Port"
-        description: "443, 8080"
-        is_expand: true
-        is_required: true
-        value_options: []
+    opts:
+      title: "JIRA Port"
+      summary: "JIRA instance Port"
+      description: "443, 8080"
+      is_expand: true
+      is_required: true
+      value_options: []
   - jira_default_project:
     opts:
       title: "JIRA Default Project"
