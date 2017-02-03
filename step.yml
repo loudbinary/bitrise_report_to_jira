@@ -76,7 +76,7 @@ inputs:
     opts:
       title: "JIRA Default Issue type"
       summary: "JIRA Default Issue type for new issues"
-      description: "When necessary to create a new issue, because none were supplied, then issue type will be used."
+      description: "When necessary to create a new issue, because none were supplied, then issue type will be used.\r Please note this field is case sensitive."
       is_expand: true
       is_required: false
       value_options: []
