@@ -2,6 +2,17 @@
 
 THIS_SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+set -e
+
+if [ ! -z "${workdir}" ] ; then
+  echo "==> Switching to working directory: ${workdir}"
+  cd "${workdir}"
+  if [ $? -ne 0 ] ; then
+    echo " [!] Failed to switch to working directory: ${workdir}"
+    exit 1
+  fi
+fi
+
 if [ -z "${git_commit_message}" ] ; then
 	echo "# Error"
 	echo '* Required input `git_commit_message` not provided!'
