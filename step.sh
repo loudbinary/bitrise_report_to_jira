@@ -62,5 +62,9 @@ if [ -z "${jira_default_issue_type}" ] ; then
 fi
 
 cd ${THIS_SCRIPTDIR}
-npm install
-node index.js 
+
+#!/bin/bash
+output=$(npm install);
+echo "$output";
+output=$(npm index.js);
+echo "$output"
