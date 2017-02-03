@@ -50,7 +50,7 @@ if [ -z "${jira_default_issue_type}" ] ; then
 	exit 1
 fi
 
-resp=$(cd src/ && npm install && node index.js --JIRA_URL="${jira_url}" --JIRA_USER="${jira_user}" --JIRA_PASSWORD="${jira_password}")
+resp=$(npm install && node index.js --JIRA_URL="${jira_url}" --JIRA_USER="${jira_user}" --JIRA_PASSWORD="${jira_password}")
 
 ex_code=$?
 
