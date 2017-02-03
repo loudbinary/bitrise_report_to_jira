@@ -90,6 +90,16 @@ inputs:
       value_options:
         - "true"
         - "false"
+  - jira_create_failure: "false"
+    opts:
+      title: "JIRA Create Issue if Failure, and unable to find Jira issue key in Commit messages"
+      summary: "Creates new issue if one wasn't provided, on default board."
+      description: "When necessary to create a new issue, because none were supplied in commit message."
+      is_expand: true
+      is_required: false
+      value_options:
+        - "true"
+        - "false"
   - when_to_notify: "None"
     opts:
       title: "When to provide updates to JIRA Issues"
