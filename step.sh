@@ -63,4 +63,4 @@ fi
 
 cd ${THIS_SCRIPTDIR}
 npm install
-node index.js --JIRA_URL='${jira_url}' --JIRA_PORT='${jira_port}' --JIRA_USER='${jira_user}' --JIRA_PASSWORD='${jira_password}'
+node index.js 

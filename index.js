@@ -86,13 +86,13 @@ function applyCommandLineVariables(){
 }
 
 function applyEnvironmentVariables(){
-    if(process.env.JIRA_URL != null && process.env.JIRA_USER != null && process.env.JIRA_PASSWORD != null || process.env.JIRA_PORT){
-        JIRA_URL = process.env.JIRA_URL;
-        JIRA_USER = process.env.JIRA_USER;
-        JIRA_PASSWORD = process.env.JIRA_PASSWORD;
-        JIRA_PORT = process.env.JIRA_PORT;
+    if(process.env.jira_url != null && process.env.jira_user != null && process.env.jira_password != null || process.env.jira_port){
+        JIRA_URL = process.env.jira_url;
+        JIRA_USER = process.env.jira_user;
+        JIRA_PASSWORD = process.env.jira_password;
+        JIRA_PORT = process.env.jira_port;
     } else {
-        if (typeof(argv.JIRA_URL) == 'undefined' || typeof(argv.JIRA_USER) == 'undefined' || typeof(argv.JIRA_PASSWORD) == 'undefined' || typeof(argv.JIRA_PORT)  == 'undefined') {
+        if (typeof(argv.jira_url) == 'undefined' || typeof(argv.jira_user) == 'undefined' || typeof(argv.jira_password) == 'undefined' || typeof(argv.jira_port)  == 'undefined') {
             console.log('Unable to setup connection to JIRA.');
             process.exit(1);
         } else {
@@ -114,7 +114,7 @@ function processJiraIssue(issueNumber) {
 function createNewJiraIssue(callback){
   if (!process.env.jira_default_project || !process.env.jira_default_issue_type) {
     console.log('Default Jira Project value is missing or Jira Default issue type, unable to create new Issue');
-    process.exit(1);
+    callback("Missing jira_default_project or jira_default_issue_type in your environment variables.");
   } else {
     var newIssue = new Issue();
     jira.addNewIssue(newIssue,function(err,results){
@@ -143,9 +143,10 @@ function processAllJiraIssues(issues,callback){
             console.log('Creating new Jira issue with details, because missing');
             createNewJiraIssue(function(err,results){
                 if (err){
-                    process.env['JIRA_ISSUE_KEY'] = 'production';
+                    console.log('Unable to create new JIRA Issue');
                     callback(err,null);
                 } else {
+                    process.env['JIRA_ISSUE_KEY'] = results.key;
                     callback(err,results);
                 }
 
@@ -165,10 +166,11 @@ if (typeof(process.env.BITRISE_GIT_MESSAGE) == 'undefined') {
 
 // Main
 findJiraIssueKeys(commit_message,function(err,issues){
-    processAllJiraIssues(issues,function(err){
+    processAllJiraIssues(issues,function(err,results){
         if (err){
             process.exit(1)
         } else {
+            console.log('Jira Key(s) have been updated or created: ', process.env.JIRA_ISSUE_KEY);
             process.exit(0)
         }
     })
